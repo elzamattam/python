@@ -1,0 +1,18 @@
+Implement a calculator: -
+
+
+Customer requirements:
+
+1. Is it a normal calculator or scientific calculator - Normal calculator
+2. Does it require a UI - No
+3. What all operations should be supported - addition, subtraction, division, multiplication, exponent
+4. Does it require memory functionalities - No
+5. How many operands can be used - 2
+6. Should the calculator work a single time or until user gives some input to stop - Until the user gives some input to stop
+
+Evaluation criteria:
+
+1. Has every functionality asked by the customer satisfied?
+2. Is the application user-friendly (clear prompts, messages, etc.)?
+3. Has corner cases been elegantly handled?
+4. Is the code clean (understandable and maintainable)?

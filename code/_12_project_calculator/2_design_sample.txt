@@ -1,0 +1,17 @@
+<Console>
+Choose an operator from the following:
+1. Addition
+2. Multiplication
+3. Division
+4. Subtraction
+5. Exponent
+Input: 2
+
+Enter first operand for multiplication: 1
+Enter second operand for multiplication: 3
+
+Result: 3
+
+Do you want to continue (y/n)? n
+
+Thank you!
