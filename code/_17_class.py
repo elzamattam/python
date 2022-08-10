@@ -1,3 +1,6 @@
+from _18_enum import StudentStatus
+
+
 print('\nStudent Details\n---------------\n')
 
 
@@ -25,7 +28,7 @@ print('\nStudent Details\n---------------\n')
 # Using class
 
 class Student:
-    def __init__(self, id: int, name: str, status: str):
+    def __init__(self, id: int, name: str, status: StudentStatus):
         self.id = id
         self.name = name
         self.status = status
@@ -34,24 +37,24 @@ class Student:
         print(f'Id :{self.id},\nName :{self.name},\nStatus: {self.status}')
 
     def has_passed(self) -> bool:
-        if self.status=='Passed':
+        if self.status==StudentStatus.Passed:
             return True
         return False
 
 
-s1 = Student(1, 'Anu', 'passed')
+s1 = Student(1, 'Anu', StudentStatus.Passed)
 s1.print_details()
 print(s1.has_passed())
 
-s2 = Student(2, 'Binu', 'Failed')
+s2 = Student(2, 'Binu', StudentStatus.Failed)
 s2.print_details()
 print(s2.has_passed())
 
-s3 = Student(3, 'Ram', 'Pending')
+s3 = Student(3, 'Ram', StudentStatus.Pending)
 s3.print_details()
 print(s3.has_passed())
 
-s4 = Student(4, 'Divya', 'Passed')
+s4 = Student(4, 'Divya', StudentStatus.Passed)
 s4.print_details()
 print(s4.has_passed())
 
