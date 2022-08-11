@@ -58,5 +58,5 @@ s4 = Student(4, 'Divya', StudentStatus.Passed)
 s4.print_details()
 print(s4.has_passed())
 
-# Problem with the above: 'status' is just a string; user of 'Student' class can instantiate it with invalid strings (other than 'Passed', 'Failed,' 'Pending')
-# Solution is to use an enum
+# Note: If 'status' were a string, user of 'Student' class can instantiate it with invalid strings (i.e. other than 'Passed', 'Failed,' 'Pending')
+# So enum was best suited for 'status' and therefore we created and used 'StudentStatus' enum
