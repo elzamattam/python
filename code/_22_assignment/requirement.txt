@@ -1,0 +1,23 @@
+Create a Python server (back-end) application with the following features:
+
+1. Should connect to a database ‘electronic_devices_db’ consisting of only a single table ‘electronic_device_details’
+which stores the details of electronic devices. Things to note:
+    a. The Python application should create the ‘electronic_devices_db’ database if it does not already exist. If
+it does, the existing database should be used.
+    b. You are free to define the columns in ‘electronic_device_details’ table.
+    c. Index the ‘electronic_device_details’ table based on one or more columns which you think are most
+relevant.
+
+2. Should expose 4 APIs for:
+    a. Adding a new electronic device to the database.
+    b. Updating details of an existing electronic device in the database.
+    c. Removing an existing electronic device from the database.
+    d. Getting the details of all electronic devices in the database.
+
+3. Should have a thread/timer to constantly monitor whether the number of rows in the ‘electronic_device_details’
+table has exceeded a limit. This limit should be read from a file named ‘config.json’.
+
+4. If the number of rows in the ‘electronic_device_details’ table has exceeded the limit, an entry should be written
+to a log file named ‘application.log’. The format of the entry should be: <datetime> --- <message>
+E.g.
+2022-06-08 08:44:08.176 --- Electronic device details table exceeded the limit of 10 rows
