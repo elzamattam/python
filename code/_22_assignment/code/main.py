@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2._psycopg import connection
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 electronic_database_name = 'electronic_devices_db'
@@ -6,7 +7,7 @@ electronic_database_name = 'electronic_devices_db'
 # Function to create database
 
 
-def create_connection_to_database(database_name: str):
+def create_connection_to_database(database_name: str) -> connection:
     conn = psycopg2.connect(
         host='localhost',
         port=5432,
