@@ -1,3 +1,4 @@
+import json
 from xmlrpc.client import boolean
 import psycopg2
 from psycopg2._psycopg import connection
@@ -6,10 +7,8 @@ import fastapi
 import uvicorn
 import models
 import threading
+import os
 
-app = None
-conn = None
-cursor = None
 electronic_database_name = 'electronic_devices_db'
 
 
@@ -17,11 +16,10 @@ def initialize():
     initialize_database()
     initialize_api()
     initialize_timer()
-    uvicorn.run(app, host='localhost', port=1000)
 
 
 def initialize_database():
-    global conn,cursor
+    global conn, cursor
     # Connect to (PostgreSQL) database and get the connection object
     try:
         conn = create_connection_to_database(electronic_database_name)
@@ -47,14 +45,27 @@ def initialize_api():
 
 
 def initialize_timer():
-    timer = threading.Timer(2.0, check_if_limit_has_exceeded_and_print())
+    path = os.path.dirname(os.path.abspath(__file__))
+    config_file = open(f"{path}\\config.json", "r")
+    config_file_content = json.load(config_file)
+    limit = config_file_content["limit"]
+    start_timer(limit)
+
+
+def start_timer(limit: int):
+    timer = threading.Timer(
+        limit, check_if_limit_has_exceeded_and_print, [limit])
+    timer.daemon = True
     timer.start()
 
 
-def check_if_limit_has_exceeded_and_print():
-    cursor.execute("SELECT COUNT(*) FROM electronic_device_details;")
-    count = cursor.fetchall()
-    print(count)
+def check_if_limit_has_exceeded_and_print(limit: int):
+    try:
+        cursor.execute("SELECT COUNT(*) FROM electronic_device_details;")
+        count = cursor.fetchall()
+        print(count[0][0])
+    finally:
+        start_timer(limit)
 
 
 def create_connection_to_database(database_name: str) -> connection:
@@ -115,5 +126,6 @@ def get_all_devices():
     return rows
 
 
-cursor.close()
-conn.close()
+uvicorn.run(app, host='localhost', port=1000)
+# cursor.close()
+# conn.close()
