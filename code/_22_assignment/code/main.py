@@ -1,3 +1,4 @@
+import datetime
 import json
 from xmlrpc.client import boolean
 import psycopg2
@@ -10,6 +11,7 @@ import threading
 import os
 
 electronic_database_name = 'electronic_devices_db'
+path = os.path.dirname(os.path.abspath(__file__))
 
 
 def initialize():
@@ -45,7 +47,6 @@ def initialize_api():
 
 
 def initialize_timer():
-    path = os.path.dirname(os.path.abspath(__file__))
     config_file = open(f"{path}\\config.json", "r")
     config_file_content = json.load(config_file)
     limit = config_file_content["limit"]
@@ -53,8 +54,7 @@ def initialize_timer():
 
 
 def start_timer(limit: int):
-    timer = threading.Timer(
-        limit, check_if_limit_has_exceeded_and_print, [limit])
+    timer = threading.Timer(2, check_if_limit_has_exceeded_and_print, [limit])
     timer.daemon = True
     timer.start()
 
@@ -63,9 +63,18 @@ def check_if_limit_has_exceeded_and_print(limit: int):
     try:
         cursor.execute("SELECT COUNT(*) FROM electronic_device_details;")
         count = cursor.fetchall()
-        print(count[0][0])
+        row_count = count[0][0]
+        if row_count > limit:
+            write_to_application_log(limit)
     finally:
         start_timer(limit)
+
+
+def write_to_application_log(limit: int):
+    application_log_file = open(f"{path}\\application.log", "a")
+    application_log_file.write(
+        f"{datetime.datetime.now()} --- Electronic device details table exceeded the limit of {limit} rows \n")
+    application_log_file.close()
 
 
 def create_connection_to_database(database_name: str) -> connection:
